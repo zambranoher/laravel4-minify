@@ -1,19 +1,21 @@
-Laravel4 Minify Package
+Laravel4 Minify Package with Blade support
 ===============
+
+Based on ceesvanegmond "Laravel4 Minify Package" and only adds the functionality to use blade files for CSS and JS, this is usefull if you would like to use @if/url or any PHP command.
 
 A Laravel 4 package for minifying your .css and .js. It caches the file with an uniq fingerprint. When you adjust your CSS/JS, your old cached/minified files are deleted, and a new cachefile is placed.
 
 
 <h3>Installation</h3>
-Instal it via composer
+Install it via composer
 
 Add the following line in your composer.json
 <pre>
-  "ceesvanegmond/minify": "dev-master"
+  "sampettersson/minify": "dev-master"
 </pre>
 Please add the following line in your config/app.php
 <pre>
-  	'CeesVanEgmond\Minify\MinifyServiceProvider',
+  	'sampettersson\Minify\MinifyServiceProvider',
 </pre>
 
 <h3>Config</h3>
