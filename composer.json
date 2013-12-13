@@ -1,11 +1,11 @@
 {
-    "name": "ceesvanegmond/minify",
+    "name": "sampettersson/minify",
     "keywords": ["minify", "laravel"],
-    "description": "A Laravel 4 package for minifying your .css and .js. It caches the file with an uniq fingerprint. When you adjust your CSS/JS, your old cached/minified files are deleted, and a new cachefile is placed.",
+    "description": "A Laravel 4 package for minifying your .css and .js. It caches the file with an uniq fingerprint. When you adjust your CSS/JS, your old cached/minified files are deleted, and a new cachefile is placed. There's also support for blade templates.",
     "authors": [
         {
-            "name": "Cees van Egmond",
-            "email": "cees@ceesvanegmond.com"
+            "name": "Sam Pettersson",
+            "email": "sam@sampettersson.com"
         }
     ],
     "require": {
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-0": {
-            "CeesVanEgmond\\Minify": "src/"
+            "sampettersson\\Minify": "src/"
         },
         "files": [
             "src/helpers.php"
