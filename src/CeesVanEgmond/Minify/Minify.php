@@ -1,5 +1,7 @@
 <?php namespace CeesVanEgmond\Minify;
 
+use Illuminate\Support\Facades\View;
+
 /**
 * Minify
 *
@@ -47,6 +49,25 @@ class Minify {
      */
 	public function minifyCss($files)
 	{
+
+		$blade = array();
+
+		foreach ($files as $key => $val) {
+			if(substr($val, -6) == ".blade"){
+				$name = str_replace(".blade", '', $val);
+				array_push($blade, $name);
+				unset($files[$key]);
+			}
+		}
+
+		$all = null;
+
+		foreach ($blade as $key) {
+			$view = View::make('CSS/' . $key);
+			$css = $view->render();
+			$all = $all . ' ' . $view->render();
+		}
+
 		$this->files = $files;
 		$this->path = public_path() . \Config::get('minify::css_path');		
 		$this->buildpath = $this->path . \Config::get('minify::css_build_path');
@@ -58,11 +79,17 @@ class Minify {
 		$filename = md5(str_replace('.css', '', implode('-', $this->files)) . '-' . $totalmod).'.css';
 		$output = $this->buildpath . $filename;
 
+		$all = \CssMin::minify($all);
+
 		if ( \File::exists($output) ) {
-			return $this->absoluteToRelative($output);
+			if(strpos(\File::get($output),$all)) {
+				return $this->absoluteToRelative($output);
+	    	}
 		}
 
-		$all = $this->appendAllFiles();	
+
+		$all = $all . $this->appendAllFiles();
+
 		$result = \CssMin::minify($all);		
 		// $this->cleanPreviousFiles($this->buildpath, $filename);
 
