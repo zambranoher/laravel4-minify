@@ -1,4 +1,4 @@
-<?php namespace CeesVanEgmond\Minify;
+<?php namespace sampettersson\Minify;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -18,7 +18,7 @@ class MinifyServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('ceesvanegmond/minify');
+		$this->package('sampettersson/minify');
 	}
 
 	/**

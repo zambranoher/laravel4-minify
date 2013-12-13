@@ -1,4 +1,4 @@
-<?php namespace CeesVanEgmond\Minify;
+<?php namespace sampettersson\Minify;
 
 use Illuminate\Support\Facades\View;
 
