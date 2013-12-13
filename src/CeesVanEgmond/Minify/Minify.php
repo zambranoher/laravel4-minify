@@ -50,24 +50,6 @@ class Minify {
 	public function minifyCss($files)
 	{
 
-		$blade = array();
-
-		foreach ($files as $key => $val) {
-			if(substr($val, -6) == ".blade"){
-				$name = str_replace(".blade", '', $val);
-				array_push($blade, $name);
-				unset($files[$key]);
-			}
-		}
-
-		$all = null;
-
-		foreach ($blade as $key) {
-			$view = View::make('CSS/' . $key);
-			$css = $view->render();
-			$all = $all . ' ' . $view->render();
-		}
-
 		$this->files = $files;
 		$this->path = public_path() . \Config::get('minify::css_path');		
 		$this->buildpath = $this->path . \Config::get('minify::css_build_path');
@@ -79,16 +61,11 @@ class Minify {
 		$filename = md5(str_replace('.css', '', implode('-', $this->files)) . '-' . $totalmod).'.css';
 		$output = $this->buildpath . $filename;
 
-		$all = \CssMin::minify($all);
-
 		if ( \File::exists($output) ) {
-			if(strpos(\File::get($output),$all)) {
-				return $this->absoluteToRelative($output);
-	    	}
+			return $this->absoluteToRelative($output);
 		}
 
-
-		$all = $all . $this->appendAllFiles();
+		$all = $this->appendAllFiles();
 
 		$result = \CssMin::minify($all);		
 		// $this->cleanPreviousFiles($this->buildpath, $filename);
@@ -188,7 +165,15 @@ class Minify {
 	{		
 		$all = '';
 		foreach ($this->files as $file)
+
+			if(substr($file, -6) != ".blade"){
 			$all .= \File::get($this->path . $file);
+			} else {
+			$file = str_replace(".blade", "", $file);
+			$view = View::make('Minify/' . $file);
+			$render = $view->render();
+			$all .= $render;
+			}
 
 		if ( ! $all )
 			throw new Exception;
@@ -209,7 +194,12 @@ class Minify {
 		$filetime = 0;
 				
 		foreach ($this->files as $file) {
+			if(substr($file, -6) != ".blade"){
 			$absolutefile = $this->path . $file;
+			} else {
+			$file = str_replace(".blade", "", $file);
+			$absolutefile = app_path() . '/views/Minify/' . $file . '.blade.php';
+			}
 
 			if ( ! \File::exists($absolutefile)) {			
 				throw new \Exception;
