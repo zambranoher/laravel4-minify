@@ -49,8 +49,10 @@ Example to minify your JavaScript (in .blade file)
 Or CSS 
 
 <pre>
-{{ stylesheet('main.css') }}
+{{ stylesheet(array('main.css', 'main.blade')) }}
 </pre>
+
+Note!, For main.blade to work you need to have a main.blade.php file in views/CSS/.
 
 You'll notice that you can set multiple files as an array, or just one file (string)
 The system will only react if you're' not on the 'local' environment!!!
